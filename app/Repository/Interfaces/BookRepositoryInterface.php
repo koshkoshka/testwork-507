@@ -7,8 +7,9 @@ interface BookRepositoryInterface extends BaseRepositoryInterface
 {
     
     /**
-     * @param string $search 
-     * @return array|Collection 
+     * @param array $search 
+     * @param array $sort 
+     * @return mixed 
      */
-    public function search(string $search = '', string $sort = '');
+    public function search(array $search = [], array $sort = []);
 }

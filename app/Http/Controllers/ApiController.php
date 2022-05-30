@@ -19,4 +19,11 @@ class ApiController extends Controller
     {
         return $this->bookRepository->getAll($request->input('sort'));
     }
+
+    public function searchBooks(Request $request)
+    {
+        $search = $request->json('search', []);
+        $sort = $request->json('sort', []);
+        return $this->bookRepository->search($search, $sort);
+    }
 }

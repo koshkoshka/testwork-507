@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/all-books', ApiController::class . '@getBooks');
+
+Route::post('/search-books', ApiController::class . '@searchBooks');
