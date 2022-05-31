@@ -37,35 +37,38 @@ class BookRepository implements BookRepositoryInterface
 
     public function search(array $search = [], array $sort = [])
     {
-        $qb = Book::where(function ($q) use ($search) {
-            foreach ($search as $field => $parameters) {
-                $query = $parameters['query'] ?? null;
-                $type = $parameters['type'] ?? null;
-                if (empty($query)) continue;
-                switch ($field) {
-                    case 'title':
-                        $q->where('title', 'like', "%$query%");//Заголовок всегда ищем по вхождению
-                    break;
-                    case 'year':
-                    case 'id':
-                        switch ($type) {
-                            case '=':
-                            case '>=':
-                            case '<=':
-                            case '<':
-                            case '>':
-                            case '!=':
-                                if (is_numeric($query)) $q->where($field, $type, $query);
-                                break;
-                            default:
-                                if (is_numeric($query)) $q->where($field, $query);
-                        }
-                    break;
-                }
+        $qb = Book::has('authors')
+            ->with('authors');
+        foreach ($search as $field => $parameters) {
+            $query = $parameters['query'] ?? null;
+            $type = $parameters['type'] ?? null;
+            if (empty($query)) continue;
+            switch ($field) {
+                case 'title':
+                    $qb->where(function ($q) use ($query) {
+                        $q->where('books.title', 'like', "%$query%");//Заголовок всегда ищем по вхождению
+                        $q->orWhereHas('authors', function ($q1) use ($query) {
+                            $q1->where('authors.title', 'like', "%$query%");//Заодно ищем и по автору
+                        });
+                    });
+                break;
+                case 'year':
+                case 'id':
+                    switch ($type) {
+                        case '=':
+                        case '>=':
+                        case '<=':
+                        case '<':
+                        case '>':
+                        case '!=':
+                            if (is_numeric($query)) $qb->where($field, $type, $query);
+                            break;
+                        default:
+                            if (is_numeric($query)) $qb->where($field, $query);
+                    }
+                break;
             }
-        })
-        ->has('authors')
-        ->with('authors');
+        }
         foreach ($sort as $parameters) {
             $field = $parameters['field'] ?? null;
             $order = $parameters['order'] ?? 'asc';

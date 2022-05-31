@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "887a2abb-9585-47b6-9823-c029700ae967",
+		"name": "TestWork507",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://192.168.1.133:18080/api/search-books-json",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "21232f297a57a5a743894a0e4a801fc3",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"search\": {\r\n    \"title\": {\r\n      \"query\": \"влад\"\r\n    },\r\n    \"year\": {\r\n      \"type\": \">=\",\r\n      \"query\": \"1900\"\r\n    }\r\n  },\r\n  \"sort\": [\r\n    {\r\n      \"field\": \"title\",\r\n      \"order\": \"asc\"\r\n    },\r\n    {\r\n      \"field\": \"year\",\r\n      \"order\": \"desc\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://192.168.1.133:18080/api/search-books-json",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"133"
+					],
+					"port": "18080",
+					"path": [
+						"api",
+						"search-books-json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://192.168.1.133:18080/api/search-books?year=2000&year-condition=>=&sort=year&order=desc&title=est",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "21232f297a57a5a743894a0e4a801fc3",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://192.168.1.133:18080/api/search-books?year=2000&year-condition=>=&sort=year&order=desc&title=est",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"133"
+					],
+					"port": "18080",
+					"path": [
+						"api",
+						"search-books"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2000"
+						},
+						{
+							"key": "year-condition",
+							"value": ">="
+						},
+						{
+							"key": "sort",
+							"value": "year"
+						},
+						{
+							"key": "order",
+							"value": "desc"
+						},
+						{
+							"key": "title",
+							"value": "est"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
